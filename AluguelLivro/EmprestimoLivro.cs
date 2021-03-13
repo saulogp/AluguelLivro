@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AluguelLivro
 {
-    class EmprestimoLivro
+    public class EmprestimoLivro
     {
         public long IdCliente { get; set; }
         public long NumeroTombo { get; set; }

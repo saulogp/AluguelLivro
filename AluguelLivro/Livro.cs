@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AluguelLivro
 {
-    class Livro
+    public class Livro
     {
         public long NumeroTombo { get; set; }
         public string ISBN { get; set; }
