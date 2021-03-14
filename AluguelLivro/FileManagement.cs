@@ -30,84 +30,43 @@ namespace AluguelLivro
         public static void WriteFileCSV(List<Cliente> lista)
         {
             string file_name = "CLIENTE.csv";
-
             InicializarArquivo(file_name);
-
-            try
+            using (StreamWriter streamWriter = File.CreateText($@"{path_folder}\{file_name}"))
             {
-                StreamWriter arq = File.CreateText($"{path_folder}\\{file_name}");
-
-                foreach (Cliente c in lista)
+                foreach (var linha in lista)
                 {
-                    arq.WriteLine(c.ToString());
+                    streamWriter.WriteLine(linha.ToString());
                 }
-                arq.Close();
+                streamWriter.Close();
             }
-            catch (System.IO.DirectoryNotFoundException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
-            }
-            catch (System.IO.IOException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
-            }
+            
         }
         public static void WriteFileCSV(List<Livro> lista)
         {
             string file_name = "LIVRO.csv";
-
             InicializarArquivo(file_name);
-            try
+            using (StreamWriter streamWriter = File.CreateText($@"{path_folder}\{file_name}"))
             {
-                StreamWriter arq = File.CreateText($"{path_folder}\\{file_name}");
-
-                foreach (Livro l in lista)
+                foreach (var linha in lista)
                 {
-                    arq.WriteLine(l.ToString());
+                    streamWriter.WriteLine(linha.ToString());
                 }
-                arq.Close();
-            }
-            catch (System.IO.DirectoryNotFoundException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
-            }
-            catch (System.IO.IOException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
+                streamWriter.Close();
             }
         }
         public static void WriteFileCSV(List<EmprestimoLivro> lista)
         {
             string file_name = "EMPRESTIMO.csv";
-
             InicializarArquivo(file_name);
-
-            try
+            using (StreamWriter streamWriter = File.CreateText($@"{path_folder}\{file_name}"))
             {
-                StreamWriter arq = File.CreateText($"{path_folder}\\{file_name}");
-
-                foreach (EmprestimoLivro el in lista)
+                foreach (var linha in lista)
                 {
-                    arq.WriteLine(el.ToString());
+                    streamWriter.WriteLine(linha.ToString());
                 }
-                arq.Close();
-            }
-            catch (System.IO.DirectoryNotFoundException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
-            }
-            catch (System.IO.IOException ex)
-            {
-                Console.WriteLine("ERRO:" + ex.Message);
-
+                streamWriter.Close();
             }
         }
-
         public static List<Cliente> ConvertFileCSVToListCliente()
         {
             CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
@@ -135,13 +94,12 @@ namespace AluguelLivro
                 linha = reader.ReadLine();
                 if (linha == null) break;
                 linhaseparada = linha.Split(',');
-                string data_string = linhaseparada[3].ToString();
                 lista.Add(new Cliente
                 {
                     IdCliente = int.Parse(linhaseparada[0]),
                     CPF = linhaseparada[1],
                     Nome = linhaseparada[2],
-                    DataNascimento = DateTime.ParseExact($"{data_string}", "d", CultureBr),
+                    DataNascimento = Convert.ToDateTime(linhaseparada[3]),
                     Telefone = linhaseparada[4],
                     Endereco = new Endereco
                     {
@@ -153,9 +111,9 @@ namespace AluguelLivro
                     }
                 });
             }
+            reader.Close();
             return lista;
         }
-
         public static List<Livro> ConvertFileCSVToListLivro()
         {
             CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
@@ -194,6 +152,7 @@ namespace AluguelLivro
                     Autor = linhaseparada[5]
                 });
             }
+            reader.Close();
             return lista;
         }
         public static List<EmprestimoLivro> ConvertFileCSVToListEmprestimo()
@@ -233,6 +192,7 @@ namespace AluguelLivro
                     StatusEmprestimo = int.Parse(linhaseparada[4])
                 });
             }
+            reader.Close();
             return lista;
         }
     }
