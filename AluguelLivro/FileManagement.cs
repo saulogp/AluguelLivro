@@ -145,10 +145,10 @@ namespace AluguelLivro
                 lista.Add(new Livro
                 {
                     NumeroTombo = int.Parse(linhaseparada[0]),
-                    Titulo = linhaseparada[1],
-                    ISBN = linhaseparada[2],
-                    //DataPublicacao = DateTime.ParseExact(linhaseparada[3].ToString(), "d", CultureBr),
-                    Genero = linhaseparada[4],
+                    ISBN = linhaseparada[1],
+                    Titulo = linhaseparada[2],
+                    Genero = linhaseparada[3],
+                    DataPublicacao = Convert.ToDateTime(linhaseparada[4]),
                     Autor = linhaseparada[5]
                 });
             }
