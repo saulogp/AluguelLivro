@@ -9,7 +9,7 @@ namespace AluguelLivro
 {
     public class EmprestimoLivroController
     {
-        public static bool VerificaNTomboCadastrado(List<Livro> lista, int numTombo)
+        public static bool VerificaNTomboCadastrado(List<Livro> lista, long numTombo)
         {
             foreach (Livro l in lista)
             {
@@ -20,16 +20,28 @@ namespace AluguelLivro
             }
             return false;
         }
-        public static bool VerificaNTomboDisponivel(List<EmprestimoLivro> lista, int numTombo)
+        public static bool VerificaNTomboDisponivel(List<EmprestimoLivro> lista, long numTombo)
         {
             foreach (EmprestimoLivro el in lista)
             {
-                if ((el.NumeroTombo.Equals(numTombo) ) && (el.StatusEmprestimo.Equals(1))) //verifica se esta emprestado ou não
+                if (el.NumeroTombo == numTombo  && el.StatusEmprestimo == 1) //verifica se esta emprestado ou não
                 {
                     return true;
                 }
             }
             return false;
+        }
+        public static EmprestimoLivro RetornaEmprestimo(List<EmprestimoLivro> lista, long numTombo)
+        {
+            
+            foreach (EmprestimoLivro el in lista)
+            {
+                if (el.NumeroTombo == numTombo && el.StatusEmprestimo == 1) //verifica se esta emprestado ou não
+                {
+                    return el;
+                }
+            }
+            return null;
         }
         public static long VerificaCPF(List<Cliente> lista, string cpf)
         {
@@ -81,16 +93,38 @@ namespace AluguelLivro
             DateTime dataDevolucao = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
             string dataAtual = DateTime.Now.ToString("d");
             DateTime dataEmprestimo = DateTime.ParseExact(dataAtual, "d", CultureBr);
-
+            Console.WriteLine(dataDevolucao.ToString());
+            Console.WriteLine(dataEmprestimo.ToString());
             emprestimoLivro = new EmprestimoLivro
             {
-                NumeroTombo = numTombo,
                 IdCliente = idCliente,
+                NumeroTombo = numTombo,
                 DataEmprestimo = dataEmprestimo,
                 DataDevolucao = dataDevolucao,
                 StatusEmprestimo = 1
             };
             return emprestimoLivro;
+        }
+
+        public static void Relatorio(List<EmprestimoLivro> listaEmprestimoLivro, List<Livro> listaLivro, List<Cliente> listaCliente)
+        {
+            List<Relatorio> listRelatorio = new List<Relatorio>();
+            Cliente cliente;
+            Livro livro;
+
+            string isEmprestado = "";
+            
+            foreach(EmprestimoLivro el in listaEmprestimoLivro)
+            {
+                isEmprestado = "Devolvido";
+                cliente = listaCliente.Find(x => x.IdCliente == el.IdCliente);
+                livro = listaLivro.Find(x => x.NumeroTombo == el.NumeroTombo);
+                if (el.StatusEmprestimo == 1) isEmprestado = "Emprestado";
+                
+                Console.WriteLine($"CPF: {cliente.CPF}\nTítulo: {livro.Titulo}\nStatus: {isEmprestado}\nData de Emprestimo: {el.DataEmprestimo.ToString("dd/MM/yyyy")}\nData de Evolução: {el.DataDevolucao.ToString("dd/MM/yyyy")}\n");
+                
+            }
+            
         }
     }
 }

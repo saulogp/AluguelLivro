@@ -18,7 +18,7 @@ namespace AluguelLivro
 
         public override string ToString()
         {
-            return $"{IdCliente},{CPF},{Nome},{DataNascimento.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)},{Telefone},{Endereco.Logradouro},{Endereco.Bairro},{Endereco.Cidade},{Endereco.Estado},{Endereco.CEP}";
+            return $"{IdCliente},{CPF},{Nome},{DataNascimento.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)},{Telefone},{Endereco.Logradouro},{Endereco.Bairro},{Endereco.Cidade},{Endereco.Estado},{Endereco.CEP}";
         }
     }
 }

@@ -10,28 +10,29 @@ namespace AluguelLivro
 {
     public class FileManagement
     {
-        private static string path_folder = @"C:\Users\55169\Desktop\Projeto\Files";
-        private static void InicializarArquivo(string file_name)
+        public static string path_folder = ""; //@"C:\Users\55169\Desktop\Projeto\Files";
+        public static void InicializarArquivo(string file_name)
         {
-            if (!Directory.Exists(path_folder))
-            {
-                Directory.CreateDirectory(path_folder);
-            }
+            
+            //if (!Directory.Exists(path_folder))
+            //{
+            //    Directory.CreateDirectory(path_folder);
+            //}
 
-            if (!File.Exists($@"{path_folder}\{file_name}"))
-            {
-                using (File.Create($@"{path_folder}\{file_name}"))
-                {
-                    Console.WriteLine($"Arquivo {file_name} Criado com sucesso!");
-                }
-            }
+            //if (!File.Exists($@"{path_folder}\{file_name}"))
+            //{
+            //    using (File.Create($@"{path_folder}\{file_name}"))
+            //    {
+            //        Console.WriteLine($"Arquivo {file_name} Criado com sucesso!");
+            //    }
+            //}
 
         }
         public static void WriteFileCSV(List<Cliente> lista)
         {
             string file_name = "CLIENTE.csv";
             InicializarArquivo(file_name);
-            using (StreamWriter streamWriter = File.CreateText($@"{path_folder}\{file_name}"))
+            using (StreamWriter streamWriter = File.CreateText($"{file_name}"))
             {
                 foreach (var linha in lista)
                 {
@@ -39,7 +40,7 @@ namespace AluguelLivro
                 }
                 streamWriter.Close();
             }
-            
+
         }
         public static void WriteFileCSV(List<Livro> lista)
         {
@@ -69,131 +70,141 @@ namespace AluguelLivro
         }
         public static List<Cliente> ConvertFileCSVToListCliente()
         {
-            CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
-
             List<Cliente> lista = new List<Cliente>();
             
-            string file_name = "CLIENTE.csv";
-            
-            string linha = "";
-            
-            string[] linhaseparada;
+            if (File.Exists("CLIENTE.csv"))
+            {
 
-            StreamReader reader = null;
-            try
-            {
-                reader = new StreamReader($"{path_folder}\\{file_name}", Encoding.UTF8, true);
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Arquivo não encontrado!!!\n");
-            }
+                CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
 
-            while (true)
-            {
-                linha = reader.ReadLine();
-                if (linha == null) break;
-                linhaseparada = linha.Split(',');
-                lista.Add(new Cliente
+
+                string file_name = "CLIENTE.csv"; 
+
+                string linha = "";
+
+                string[] linhaseparada;
+
+                StreamReader reader = null;
+                try
                 {
-                    IdCliente = int.Parse(linhaseparada[0]),
-                    CPF = linhaseparada[1],
-                    Nome = linhaseparada[2],
-                    DataNascimento = Convert.ToDateTime(linhaseparada[3]),
-                    Telefone = linhaseparada[4],
-                    Endereco = new Endereco
+                    reader = new StreamReader($"{file_name}", Encoding.UTF8, true);
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("Arquivo não encontrado!!!\n");
+                }
+
+                while (true)
+                {
+                    linha = reader.ReadLine();
+                    if (linha == null) break;
+                    linhaseparada = linha.Split(',');
+                    lista.Add(new Cliente
                     {
-                        Logradouro = linhaseparada[5],
-                        Bairro = linhaseparada[6],
-                        Cidade = linhaseparada[7],
-                        Estado = linhaseparada[8],
-                        CEP = linhaseparada[9]
-                    }
-                });
+                        IdCliente = int.Parse(linhaseparada[0]),
+                        CPF = linhaseparada[1],
+                        Nome = linhaseparada[2],
+                        DataNascimento = Convert.ToDateTime(linhaseparada[3]),
+                        Telefone = linhaseparada[4],
+                        Endereco = new Endereco
+                        {
+                            Logradouro = linhaseparada[5],
+                            Bairro = linhaseparada[6],
+                            Cidade = linhaseparada[7],
+                            Estado = linhaseparada[8],
+                            CEP = linhaseparada[9]
+                        }
+                    });
+                }
+                reader.Close();
             }
-            reader.Close();
             return lista;
         }
-        public static List<Livro> ConvertFileCSVToListLivro()
-        {
-            CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
+        //public static List<Livro> ConvertFileCSVToListLivro()
+        //{
+        //    CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
 
-            List<Livro> lista = new List<Livro>();
+        //    List<Livro> lista = new List<Livro>();
 
-            string file_name = "LIVRO.csv";
+        //    string file_name = "LIVRO.csv"; 
+        //    string linha = "";
 
-            string linha = "";
+        //    string[] linhaseparada;
 
-            string[] linhaseparada;
+        //    StreamReader reader = null;
+        //    try
+        //    {
+        //        reader = new StreamReader($"{path_folder}\\{file_name}", Encoding.UTF8, true);
+        //    }
+        //    catch (FileNotFoundException)
+        //    {
+        //        Console.WriteLine("Arquivo não encontrado!!!\n");
+        //    }
 
-            StreamReader reader = null;
-            try
-            {
-                reader = new StreamReader($"{path_folder}\\{file_name}", Encoding.UTF8, true);
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Arquivo não encontrado!!!\n");
-            }
+        //    while (true)
+        //    {
+        //        linha = reader.ReadLine();
+        //        if (linha == null) break;
+        //        linhaseparada = linha.Split(',');
 
-            while (true)
-            {
-                linha = reader.ReadLine();
-                if (linha == null) break;
-                linhaseparada = linha.Split(',');
+        //        lista.Add(new Livro
+        //        {
+        //            NumeroTombo = int.Parse(linhaseparada[0]),
+        //            ISBN = linhaseparada[1],
+        //            Titulo = linhaseparada[2],
+        //            Genero = linhaseparada[3],
+        //            DataPublicacao = Convert.ToDateTime(linhaseparada[4]),
+        //            Autor = linhaseparada[5]
+        //        });
+        //    }
+        //    reader.Close();
+        //    return lista;
+        //}
+        //public static List<EmprestimoLivro> ConvertFileCSVToListEmprestimo()
+        //{
+        //    CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
 
-                lista.Add(new Livro
-                {
-                    NumeroTombo = int.Parse(linhaseparada[0]),
-                    ISBN = linhaseparada[1],
-                    Titulo = linhaseparada[2],
-                    Genero = linhaseparada[3],
-                    DataPublicacao = Convert.ToDateTime(linhaseparada[4]),
-                    Autor = linhaseparada[5]
-                });
-            }
-            reader.Close();
-            return lista;
-        }
-        public static List<EmprestimoLivro> ConvertFileCSVToListEmprestimo()
-        {
-            CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
+        //    List<EmprestimoLivro> lista = new List<EmprestimoLivro>();
 
-            List<EmprestimoLivro> lista = new List<EmprestimoLivro>();
+        //    string file_name = "EMPRESTIMO.csv";
 
-            string file_name = "EMPRESTIMO.csv";
+        //    string linha = "";
 
-            string linha = "";
+        //    string[] linhaseparada;
 
-            string[] linhaseparada;
+        //    StreamReader reader = null;
+        //    try
+        //    {
+        //        reader = new StreamReader($"{path_folder}\\{file_name}", Encoding.UTF8, true);
+        //    }
+        //    catch (FileNotFoundException)
+        //    {
+        //        Console.WriteLine("Arquivo não encontrado!!!\n");
+        //    }
 
-            StreamReader reader = null;
-            try
-            {
-                reader = new StreamReader($"{path_folder}\\{file_name}", Encoding.UTF8, true);
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Arquivo não encontrado!!!\n");
-            }
-
-            while (true)
-            {
-                linha = reader.ReadLine();
-                if (linha == null) break;
-                linhaseparada = linha.Split(',');
-
-                lista.Add(new EmprestimoLivro
-                {
-                    IdCliente = int.Parse(linhaseparada[0]),
-                    NumeroTombo = int.Parse(linhaseparada[1]),
-                    DataEmprestimo = DateTime.ParseExact("15/03/2021", "d", CultureBr),
-                    DataDevolucao = DateTime.ParseExact("25/03/2021", "d", CultureBr),
-                    StatusEmprestimo = int.Parse(linhaseparada[4])
-                });
-            }
-            reader.Close();
-            return lista;
-        }
+        //    while (true)
+        //    {
+        //        linha = reader.ReadLine();
+        //        if (linha == null) break;
+        //        linhaseparada = linha.Split(',');
+                
+        //        foreach(string l in linhaseparada)
+        //        {
+        //            Console.WriteLine(l);
+        //        }
+        //        //string datae = Convert.ToDateTime(linhaseparada[2]).ToString("dd/MM/yyyy");
+                
+        //        lista.Add(new EmprestimoLivro
+        //        {
+        //            IdCliente = long.Parse(linhaseparada[0]),
+        //            NumeroTombo = long.Parse(linhaseparada[1]),
+        //            DataEmprestimo =  Convert.ToDateTime(linhaseparada[2]),
+        //            DataDevolucao = Convert.ToDateTime(linhaseparada[3]),
+        //            StatusEmprestimo = int.Parse(linhaseparada[4])
+        //        });
+        //    }
+        //    reader.Close();
+        //    return lista;
+        //}
     }
 }
