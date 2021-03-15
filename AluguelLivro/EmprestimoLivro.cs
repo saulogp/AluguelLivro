@@ -18,7 +18,7 @@ namespace AluguelLivro
 
         public override string ToString()
         {
-            return $"{IdCliente},{NumeroTombo},{DataEmprestimo.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)},{DataDevolucao.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)},{StatusEmprestimo}";
+            return $"{IdCliente};{NumeroTombo};{DataEmprestimo.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)};{DataDevolucao.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)};{StatusEmprestimo}";
         }
     }
 }

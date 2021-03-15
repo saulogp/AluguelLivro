@@ -10,7 +10,7 @@ namespace AluguelLivro
 {
     public class FileManagement
     {
-        public static string path_folder = "";
+        //public static string path_folder = "";
         
         public static void WriteFileCSV(List<Cliente> lista)
         {
@@ -82,7 +82,7 @@ namespace AluguelLivro
                 {
                     linha = reader.ReadLine();
                     if (linha == null) break;
-                    linhaseparada = linha.Split(',');
+                    linhaseparada = linha.Split(';');
                     lista.Add(new Cliente
                     {
                         IdCliente = int.Parse(linhaseparada[0]),
@@ -132,7 +132,7 @@ namespace AluguelLivro
                 {
                     linha = reader.ReadLine();
                     if (linha == null) break;
-                    linhaseparada = linha.Split(',');
+                    linhaseparada = linha.Split(';');
 
                     lista.Add(new Livro
                     {
@@ -177,7 +177,7 @@ namespace AluguelLivro
                 {
                     linha = reader.ReadLine();
                     if (linha == null) break;
-                    linhaseparada = linha.Split(',');
+                    linhaseparada = linha.Split(';');
 
                     foreach (string l in linhaseparada)
                     {
