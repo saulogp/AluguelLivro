@@ -43,8 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cliente.cs" />
+    <Compile Include="ClienteController.cs" />
+    <Compile Include="DevolucaoController.cs" />
+    <Compile Include="EmprestimoLivro.cs" />
+    <Compile Include="EmprestimoLivroController.cs" />
+    <Compile Include="Endereco.cs" />
+    <Compile Include="FileManagement.cs" />
+    <Compile Include="Livro.cs" />
+    <Compile Include="LivroController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relatorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

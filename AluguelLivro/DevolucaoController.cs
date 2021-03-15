@@ -12,7 +12,6 @@ namespace AluguelLivro
         public static void Devolucao(List<EmprestimoLivro> listaEmprestimo)
         {
             CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
-            //Livro livro;
             EmprestimoLivro emprestimoLivro = null;
             
             double valorMulta =0;
@@ -20,14 +19,12 @@ namespace AluguelLivro
 
             Console.WriteLine("Informe o Número do Tombo:");
             long numTombo = long.Parse(Console.ReadLine());
-            if (EmprestimoLivroController.VerificaNTomboDisponivel(listaEmprestimo, numTombo))//caso entre significa que o livro esta como devolvido ou que nunca foi encontrado
+            if (EmprestimoLivroController.VerificaNTomboDisponivel(listaEmprestimo, numTombo))
             {
 
                 emprestimoLivro = EmprestimoLivroController.RetornaEmprestimo(listaEmprestimo, numTombo);
-                Console.WriteLine(emprestimoLivro.ToString());
                 emprestimoLivro.StatusEmprestimo = 2; //update da status para devolvido
-                Console.WriteLine(emprestimoLivro.ToString());
-                
+                                
                 string dataAtual = DateTime.Now.ToString("d");
                 DateTime dataAtualConvertida = DateTime.ParseExact(dataAtual, "d", CultureBr);
                 if(dataAtualConvertida > emprestimoLivro.DataDevolucao)
@@ -57,7 +54,5 @@ namespace AluguelLivro
             }
             return 0.0;
         }
-
-
     }
 }

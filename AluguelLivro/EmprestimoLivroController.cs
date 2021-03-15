@@ -54,7 +54,6 @@ namespace AluguelLivro
             }
             return 0;
         }
-
         public static EmprestimoLivro ReadEmprestimo(List<EmprestimoLivro> listaEmprestimoLivro, List<Livro> listaLivro, List<Cliente> listaCliente)
         {
             CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
@@ -89,12 +88,11 @@ namespace AluguelLivro
 
             }
             
-            Console.Write("Informe o Data de Devolução: ");
+            Console.Write("Informe a Data de Devolução: ");
             DateTime dataDevolucao = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
             string dataAtual = DateTime.Now.ToString("d");
             DateTime dataEmprestimo = DateTime.ParseExact(dataAtual, "d", CultureBr);
-            Console.WriteLine(dataDevolucao.ToString());
-            Console.WriteLine(dataEmprestimo.ToString());
+            
             emprestimoLivro = new EmprestimoLivro
             {
                 IdCliente = idCliente,
@@ -105,10 +103,8 @@ namespace AluguelLivro
             };
             return emprestimoLivro;
         }
-
         public static void Relatorio(List<EmprestimoLivro> listaEmprestimoLivro, List<Livro> listaLivro, List<Cliente> listaCliente)
         {
-            List<Relatorio> listRelatorio = new List<Relatorio>();
             Cliente cliente;
             Livro livro;
 
@@ -117,8 +113,8 @@ namespace AluguelLivro
             foreach(EmprestimoLivro el in listaEmprestimoLivro)
             {
                 isEmprestado = "Devolvido";
-                cliente = listaCliente.Find(x => x.IdCliente == el.IdCliente);
-                livro = listaLivro.Find(x => x.NumeroTombo == el.NumeroTombo);
+                cliente = listaCliente.Find(c => c.IdCliente == el.IdCliente);
+                livro = listaLivro.Find(l => l.NumeroTombo == el.NumeroTombo);
                 if (el.StatusEmprestimo == 1) isEmprestado = "Emprestado";
                 
                 Console.WriteLine($"CPF: {cliente.CPF}\nTítulo: {livro.Titulo}\nStatus: {isEmprestado}\nData de Emprestimo: {el.DataEmprestimo.ToString("dd/MM/yyyy")}\nData de Evolução: {el.DataDevolucao.ToString("dd/MM/yyyy")}\n");

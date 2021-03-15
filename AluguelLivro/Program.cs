@@ -13,11 +13,6 @@ namespace AluguelLivro
         {
             CultureInfo CultureBr = new CultureInfo(name: "pt-BR");
             
-            //Inicializando o arquivo...
-            FileManagement.InicializarArquivo("CLIENTE.csv");
-            FileManagement.InicializarArquivo("LIVRO.csv");
-            FileManagement.InicializarArquivo("EMPRESTIMO.csv");
-
             List<Cliente> listaCliente = new List<Cliente>();
             Cliente cliente;
 
@@ -28,9 +23,9 @@ namespace AluguelLivro
             EmprestimoLivro emprestimoLivro;
             
             listaCliente = FileManagement.ConvertFileCSVToListCliente();
-            //listaLivro = FileManagement.ConvertFileCSVToListLivro();
-            //listaEmprestimoLivros = FileManagement.ConvertFileCSVToListEmprestimo();
-            
+            listaLivro = FileManagement.ConvertFileCSVToListLivro();
+            listaEmprestimoLivros = FileManagement.ConvertFileCSVToListEmprestimo();
+
             int op;
             do
             {
@@ -50,6 +45,7 @@ namespace AluguelLivro
                         {
                             listaCliente.Add(cliente);
                             FileManagement.WriteFileCSV(listaCliente);
+                            Console.WriteLine("Cliente cadastrado!");
                         }
                         Console.WriteLine("Pressione ENTER para continuar...");
                         Console.ReadKey();
@@ -61,28 +57,26 @@ namespace AluguelLivro
                         {
                             listaLivro.Add(livro);
                             FileManagement.WriteFileCSV(listaLivro);
+                            Console.WriteLine("Livro cadastrado!");
                             Console.WriteLine("O Número do Tombo é: " + livro.NumeroTombo);
                         }
                         Console.WriteLine("Pressione ENTER para continuar...");
                         Console.ReadKey();
                         break;
                     case 3:
-                        //Empréstimo de Livro -----------------------------------------------------------------------
+                        //Empréstimo de Livro 
                         do {
                             emprestimoLivro = EmprestimoLivroController.ReadEmprestimo(listaEmprestimoLivros, listaLivro, listaCliente);
                             if (emprestimoLivro != null)
                             {
-                                listaEmprestimoLivros.Add(emprestimoLivro);
-                                foreach (EmprestimoLivro el in listaEmprestimoLivros)
-                                {
-                                    Console.WriteLine(el.ToString());
-                                }
+                                listaEmprestimoLivros.Add(emprestimoLivro);                                
                                 FileManagement.WriteFileCSV(listaEmprestimoLivros);
+                                Console.WriteLine("Empréstimo realizado com sucesso!");
                             }
-                            else { 
+                            else {
                                 Console.WriteLine("Deseja tentar novamente(s/n):");
                                 string continuar = Console.ReadLine();
-                                if (continuar.ToUpper() == "N") break;      //erro no loop                     
+                                if (continuar.ToUpper() == "N") break;                   
                             }
                         } while (emprestimoLivro == null);
                         Console.WriteLine("Pressione ENTER para continuar...");
