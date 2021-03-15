@@ -45,6 +45,7 @@ namespace AluguelLivro
             const double multaValorDiario = 0.10;
             TimeSpan date = dataDevolucao - dataAtual;
             int totalDias = date.Days;
+            if (totalDias < 0) totalDias = totalDias * -1;
             Console.WriteLine("Total de dias: " + totalDias);
 
             if(totalDias < 0)

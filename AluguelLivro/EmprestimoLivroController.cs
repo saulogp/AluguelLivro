@@ -88,10 +88,14 @@ namespace AluguelLivro
 
             }
             
-            Console.Write("Informe a Data de Devolução: ");
-            DateTime dataDevolucao = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
             string dataAtual = DateTime.Now.ToString("d");
             DateTime dataEmprestimo = DateTime.ParseExact(dataAtual, "d", CultureBr);
+            DateTime dataDevolucao;
+            do {
+                Console.Write("Informe a Data de Devolução: ");
+                dataDevolucao = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
+                if (dataDevolucao < dataEmprestimo) Console.WriteLine("Data de Devolução deve ser maior que a data de Empréstimo!");
+            }while(dataDevolucao < dataEmprestimo);
             
             emprestimoLivro = new EmprestimoLivro
             {

@@ -39,8 +39,12 @@ namespace AluguelLivro
             titulo = Console.ReadLine();
             Console.Write("Informe o Genero: ");
             genero = Console.ReadLine();
-            Console.Write("Informe o Data de Publicação: ");
-            DateTime datapubli = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
+            DateTime datapubli;
+            do { 
+                Console.Write("Informe o Data de Publicação: ");
+                datapubli = DateTime.ParseExact(Console.ReadLine(), "d", CultureBr);
+                if (datapubli > DateTime.Now) Console.WriteLine("A data de publicação não pode ser maior que a data atual!");
+            } while (datapubli > DateTime.Now);
             Console.Write("Informe o Autor: ");
             autor = Console.ReadLine();
             
