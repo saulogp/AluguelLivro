@@ -30,7 +30,7 @@ namespace AluguelLivro
                 if(dataAtualConvertida > emprestimoLivro.DataDevolucao)
                 {
                     valorMulta = CalculaMulta(emprestimoLivro.DataDevolucao, dataAtualConvertida);
-                    Console.WriteLine("O valor da multa é: R$" + valorMulta);
+                    Console.WriteLine("O valor da multa é: " + valorMulta.ToString("C"));
                 }
                 FileManagement.WriteFileCSV(listaEmprestimo);
             }
@@ -48,10 +48,11 @@ namespace AluguelLivro
             if (totalDias < 0) totalDias = totalDias * -1;
             Console.WriteLine("Total de dias: " + totalDias);
 
-            if(totalDias < 0)
+            if(totalDias > 0)
             {
-                totalDias = totalDias * -1;
-                return totalDias * multaValorDiario;
+              
+
+                return totalDias * multaValorDiario; 
             }
             return 0.0;
         }

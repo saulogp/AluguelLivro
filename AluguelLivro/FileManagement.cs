@@ -18,6 +18,7 @@ namespace AluguelLivro
             
             using (StreamWriter streamWriter = File.CreateText($"{file_name}"))
             {
+                streamWriter.WriteLine("IdCliente;CPF;Nome;DataNascimento;Telefone;Logradouro;Bairro;Cidade;Estado;CEP");
                 foreach (var linha in lista)
                 {
                     streamWriter.WriteLine(linha.ToString());
@@ -32,6 +33,8 @@ namespace AluguelLivro
             
             using (StreamWriter streamWriter = File.CreateText($"{file_name}"))
             {
+                streamWriter.WriteLine("NumeroTombo ;ISBN ;Titulo ;Genero ;DataPublicacao ;Autor ");
+                
                 foreach (var linha in lista)
                 {
                     streamWriter.WriteLine(linha.ToString());
@@ -45,6 +48,7 @@ namespace AluguelLivro
             
             using (StreamWriter streamWriter = File.CreateText($"{file_name}"))
             {
+                streamWriter.WriteLine("IdCliente;NumeroTombo;DataEmprestimo ;DataDevolucao ;StatusEmprestimo ");
                 foreach (var linha in lista)
                 {
                     streamWriter.WriteLine(linha.ToString());
@@ -83,22 +87,25 @@ namespace AluguelLivro
                     linha = reader.ReadLine();
                     if (linha == null) break;
                     linhaseparada = linha.Split(';');
-                    lista.Add(new Cliente
+                    if(linhaseparada[0] != "IdCliente")
                     {
-                        IdCliente = int.Parse(linhaseparada[0]),
-                        CPF = linhaseparada[1],
-                        Nome = linhaseparada[2],
-                        DataNascimento = Convert.ToDateTime(linhaseparada[3]),
-                        Telefone = linhaseparada[4],
-                        Endereco = new Endereco
+                        lista.Add(new Cliente
                         {
-                            Logradouro = linhaseparada[5],
-                            Bairro = linhaseparada[6],
-                            Cidade = linhaseparada[7],
-                            Estado = linhaseparada[8],
-                            CEP = linhaseparada[9]
-                        }
-                    });
+                            IdCliente = int.Parse(linhaseparada[0]),
+                            CPF = linhaseparada[1],
+                            Nome = linhaseparada[2],
+                            DataNascimento = Convert.ToDateTime(linhaseparada[3]),
+                            Telefone = linhaseparada[4],
+                            Endereco = new Endereco
+                            {
+                                Logradouro = linhaseparada[5],
+                                Bairro = linhaseparada[6],
+                                Cidade = linhaseparada[7],
+                                Estado = linhaseparada[8],
+                                CEP = linhaseparada[9]
+                            }
+                        });
+                    }
                 }
                 reader.Close();
             }
@@ -133,16 +140,18 @@ namespace AluguelLivro
                     linha = reader.ReadLine();
                     if (linha == null) break;
                     linhaseparada = linha.Split(';');
-
-                    lista.Add(new Livro
+                    if(linhaseparada[0] != "NumeroTombo ")
                     {
-                        NumeroTombo = int.Parse(linhaseparada[0]),
-                        ISBN = linhaseparada[1],
-                        Titulo = linhaseparada[2],
-                        Genero = linhaseparada[3],
-                        DataPublicacao = Convert.ToDateTime(linhaseparada[4]),
-                        Autor = linhaseparada[5]
-                    });
+                        lista.Add(new Livro
+                        {
+                            NumeroTombo = long.Parse(linhaseparada[0]),
+                            ISBN = linhaseparada[1],
+                            Titulo = linhaseparada[2],
+                            Genero = linhaseparada[3],
+                            DataPublicacao = Convert.ToDateTime(linhaseparada[4]),
+                            Autor = linhaseparada[5]
+                        });
+                    }
                 }
                 reader.Close();
             }
@@ -178,20 +187,23 @@ namespace AluguelLivro
                     linha = reader.ReadLine();
                     if (linha == null) break;
                     linhaseparada = linha.Split(';');
-
-                    foreach (string l in linhaseparada)
+                    if(linhaseparada[0] != "IdCliente")
                     {
-                        Console.WriteLine(l);
+
+                        foreach (string l in linhaseparada)
+                        {
+                            Console.WriteLine(l);
+                        }
+
+                        lista.Add(new EmprestimoLivro
+                        {
+                            IdCliente = long.Parse(linhaseparada[0]),
+                            NumeroTombo = long.Parse(linhaseparada[1]),
+                            DataEmprestimo = Convert.ToDateTime(linhaseparada[2]),
+                            DataDevolucao = Convert.ToDateTime(linhaseparada[3]),
+                            StatusEmprestimo = int.Parse(linhaseparada[4])
+                        });
                     }
-
-                    lista.Add(new EmprestimoLivro
-                    {
-                        IdCliente = long.Parse(linhaseparada[0]),
-                        NumeroTombo = long.Parse(linhaseparada[1]),
-                        DataEmprestimo = Convert.ToDateTime(linhaseparada[2]),
-                        DataDevolucao = Convert.ToDateTime(linhaseparada[3]),
-                        StatusEmprestimo = int.Parse(linhaseparada[4])
-                    });
                 }
                 reader.Close();
             }

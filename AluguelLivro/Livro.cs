@@ -18,7 +18,7 @@ namespace AluguelLivro
 
         public override string ToString()
         {
-            return $"{NumeroTombo};{ISBN};{Titulo},{Genero};{DataPublicacao.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)};{Autor}";
+            return $"{NumeroTombo};{ISBN};{Titulo};{Genero};{DataPublicacao.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)};{Autor}";
         }
     }
 }
